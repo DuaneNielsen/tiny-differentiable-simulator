@@ -101,11 +101,11 @@ struct TinyTimings {
 
 #else
       fprintf(gTimingFile,
-              "{\"cat\":\"timing\",\"pid\":1,\"tid\":%d,\"ts\":%" PRIu64
+              "{\"cat\":\"timing\",\"pid\":1,\"tid\":%d,\"ts\":%llu"
               ".%s ,\"ph\":\"B\",\"name\":\"%s\",\"args\":{}},\n",
               threadId, startTimeDiv1000, startTimeRem1000Str, newname);
       fprintf(gTimingFile,
-              "{\"cat\":\"timing\",\"pid\":1,\"tid\":%d,\"ts\":%" PRIu64
+              "{\"cat\":\"timing\",\"pid\":1,\"tid\":%d,\"ts\":%llu"
               ".%s ,\"ph\":\"E\",\"name\":\"%s\",\"args\":{}}",
               threadId, endTimeDiv1000, endTimeRem1000Str, newname);
 #endif
