@@ -30,6 +30,7 @@ add_definitions(-DBT_USE_DOUBLE_PRECISION)
 
 find_package(blasfeo)
 if (blasfeo_FOUND)
+    message("FOUND BLASFEO")
     include_directories(${blasfeo_INCLUDE_DIRS})
 endif (blasfeo_FOUND)
 
@@ -107,6 +108,7 @@ set(HAS_MESHCAT TRUE)
 
 find_package(Bullet)
 if (Bullet_FOUND)
+    message("FOUND BULLET")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
     include_directories(${BULLET_INCLUDE_DIRS})
     message("Bullet found in ${BULLET_INCLUDE_DIRS}")
@@ -118,6 +120,7 @@ if (Bullet_FOUND)
             OpenGLWindow  gwen BussIK Bullet3Common pthread ${DL})
 
     if (Ceres_FOUND)
+        message("FOUND CERES")
         FIND_PACKAGE(PythonLibs REQUIRED)
         INCLUDE_DIRECTORIES( 
             ${PYTHON_INCLUDE_DIRS}
@@ -200,6 +203,7 @@ if (HAS_MESHCAT)
 endif (HAS_MESHCAT)
 
 if (Torch_FOUND)
+    message("FOUND LIBTORCH")
     include_directories(${TORCH_INCLUDE_DIRS})
     message("Torch libraries: ${TORCH_LIBRARIES}")
     add_executable(torch_example torch_example.cpp ${TDS_HDRS})
