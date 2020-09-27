@@ -21,8 +21,10 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON) # For LLVM tooling
 
 cmake_policy(SET CMP0042 NEW)
-
+cmake_policy(SET CMP0012 NEW)
+cmake_policy(SET CMP0007 NEW)
 cmake_policy(SET CMP0017 NEW)
+
  if(COMMAND cmake_policy)
       cmake_policy(SET CMP0003 NEW)
     endif(COMMAND cmake_policy)
