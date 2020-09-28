@@ -16,7 +16,7 @@ will work as it's compiled with C11 ABI*
 
 https://pytorch.org/get-started/locally/
 
-![./resources/libtorch.png]
+![](./resources/libtorch.png)
 
 extract libtorch to /opt (use sudo)
 
