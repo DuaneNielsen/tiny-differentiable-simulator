@@ -222,7 +222,7 @@ class TinyMatrix3x3 {
   void setRotation(const TinyQuaternion& q) {
     TinyScalar d = q.length2();
     // TODO reactivate assertion
-    if (d == TinyConstants::zero()) {
+    if (TinyConstants::getDouble(d) == 0.0) {
       return;
     }
     //    TinyConstants::FullAssert(d != TinyConstants::zero());
@@ -242,9 +242,9 @@ class TinyMatrix3x3 {
     TinyScalar trace = m_el[0].x() + m_el[1].y() + m_el[2].z();
     TinyScalar temp[4];
 
-    if (trace < TinyConstants::zero()) {
-      int i = m_el[0].x() < m_el[1].y() ? (m_el[1].y() < m_el[2].z() ? 2 : 1)
-                                        : (m_el[0].x() < m_el[2].z() ? 2 : 0);
+    if (TinyConstants::getDouble(trace) < 0.0) {
+      int i = (TinyConstants::getDouble(m_el[0].x()) < TinyConstants::getDouble(m_el[1].y())) ? ( (TinyConstants::getDouble(m_el[1].y()) < TinyConstants::getDouble(m_el[2].z()) ) ? 2 : 1)
+                                        : ( (TinyConstants::getDouble(m_el[0].x()) < TinyConstants::getDouble(m_el[2].z())) ? 2 : 0);
       int j = (i + 1) % 3;
       int k = (i + 2) % 3;
 
@@ -320,7 +320,7 @@ class TinyMatrix3x3 {
     TinyVector3 co(cofac(1, 1, 2, 2), cofac(1, 2, 2, 0), cofac(1, 0, 2, 1));
     TinyScalar det = (*this)[0].dot(co);
     // btFullAssert(det != TinyScalar(0.0));
-    TinyConstants::FullAssert(det != TinyConstants::zero());
+    TinyConstants::FullAssert(TinyConstants::getDouble(det) != 0.0);
     TinyScalar s = TinyConstants::one() / det;
     return TinyMatrix3x3(
         co.x() * s, cofac(0, 2, 2, 1) * s, cofac(0, 1, 1, 2) * s, co.y() * s,
@@ -364,15 +364,15 @@ class TinyMatrix3x3 {
   }
 #if 0
 
-	/** @brief Get a column of the matrix as a vector 
+	/** @brief Get a column of the matrix as a vector
 	*  @param i Column number 0 indexed */
 	inline TinyVector3 getColumn(int i) const
 	{
 		return TinyVector3(m_el[0][i], m_el[1][i], m_el[2][i]);
 	}
 
-	
-	
+
+
 
 
 
@@ -385,13 +385,13 @@ class TinyMatrix3x3 {
 		m_el[1].setValue(m[1], m[5], m[9]);
 		m_el[2].setValue(m[2], m[6], m[10]);
 	}
-	
-	
+
+
 
 	/** @brief Set the matrix from euler angles using YPR around YXZ respectively
 	*  @param yaw Yaw about Y axis
 	*  @param pitch Pitch about X axis
-	*  @param roll Roll about Z axis 
+	*  @param roll Roll about Z axis
 	*/
 	void setEulerYPR(const TinyScalar& yaw, const TinyScalar& pitch, const TinyScalar& roll)
 	{
@@ -469,7 +469,7 @@ class TinyMatrix3x3 {
 #endif
 	}
 
-	
+
 	/**@brief Get the matrix represented as euler angles around YXZ, roundtrip with setEulerYPR
 	* @param yaw Yaw around Y axis
 	* @param pitch Pitch around X axis
@@ -499,7 +499,7 @@ class TinyMatrix3x3 {
 	/**@brief Get the matrix represented as euler angles around ZYX
 	* @param yaw Yaw around Z axis
 	* @param pitch Pitch around Y axis
-	* @param roll around X axis 
+	* @param roll around X axis
 	* @param solution_number Which solution of two possible solutions ( 1 or 2) are possible values*/
 	void getEulerZYX(TinyScalar & yaw, TinyScalar & pitch, TinyScalar & roll, unsigned int solution_number = 1) const
 	{
@@ -567,7 +567,7 @@ class TinyMatrix3x3 {
 		}
 	}
 
-	/**@brief Create a scaled copy of the matrix 
+	/**@brief Create a scaled copy of the matrix
 	* @param s Scaling vector The elements of the vector will scale each column */
 
 	TinyMatrix3x3 scaled(const TinyVector3& s) const
@@ -613,7 +613,7 @@ class TinyMatrix3x3 {
 	TinyMatrix3x3 transposeTimes(const TinyMatrix3x3& m) const;
 	TinyMatrix3x3 timesTranspose(const TinyMatrix3x3& m) const;
 
-	
+
 
 	///extractRotation is from "A robust method to extract the rotational part of deformations"
 	///See http://dl.acm.org/citation.cfm?doid=2994258.2994269

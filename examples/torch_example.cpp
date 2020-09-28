@@ -8,6 +8,7 @@
 #include <thread>
 
 #include "pybullet_visualizer_api.h"
+typedef PyBulletVisualizerAPI VisualizerAPI;
 #include "tiny_double_utils.h"
 #include "tiny_file_utils.h"
 #include "tiny_mb_constraint_solver_spring.h"
@@ -34,7 +35,11 @@ struct TorchUtils {
   }
   static torch::Tensor abs(torch::Tensor v) { return torch::abs(v); }
 
-  static double getDouble(torch::Tensor v) { return v.item().toDouble(); }
+  static torch::Tensor sqrt1(torch::Tensor v) {return torch::sqrt(v); }
+
+  static double getDouble(torch::Tensor v) {
+      return v.item().toDouble();
+  }
 
   template <class T>
   static double getDouble(T v) {
@@ -69,10 +74,8 @@ struct TorchUtils {
       exit(0);
     }
   }
+
 };
-
-
-typedef PyBulletVisualizerAPI VisualizerAPI;
 
 int main(int argc, char *argv[]) {
   std::string connection_mode = "gui";
@@ -93,10 +96,14 @@ int main(int argc, char *argv[]) {
 
   printf("floating_base=%d\n", floating_base);
   printf("urdf_filename=%s\n", urdf_filename.c_str());
-  auto *sim2 = new VisualizerAPI();
+  PyBulletVisualizerAPI *sim2 = new VisualizerAPI();
   bool isConnected2 = sim2->connect(eCONNECT_DIRECT);
+  if (!isConnected2) {
+      printf("Cannot connect\n");
+      return -1;
+  }
 
-  auto *sim = new VisualizerAPI();
+  PyBulletVisualizerAPI *sim = new VisualizerAPI();
   printf("connection_mode=%s\n", connection_mode.c_str());
   int mode = eCONNECT_SHARED_MEMORY;
   if (connection_mode == "direct") mode = eCONNECT_DIRECT;

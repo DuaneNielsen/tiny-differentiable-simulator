@@ -25,6 +25,11 @@ add_definitions(-DCERES_USE_CXX11)
 find_package(PkgConfig)
 
 find_package(Torch)
+find_package(CUDAToolkit)
+if (CUDAToolkit_FOUND)
+    message("FOUND CUDATOOLKIT ${CUDAToolkit_VERSION}")
+    message("CUBLAS ${CUDA_cublas_LIBRARY}")
+endif(CUDAToolkit_FOUND)
 
 add_definitions(-DBT_USE_DOUBLE_PRECISION)
 
@@ -190,25 +195,27 @@ if (Bullet_FOUND)
       target_link_libraries(pendulum_ik_gui pybullet_visualizer_api)
     endif()
 
-    
     add_executable(generic_urdf_collision generic_urdf_collision.cpp ${TDS_HDRS})
     target_link_libraries(generic_urdf_collision pybullet_visualizer_api)
 
     add_executable(gravity_compensation gravity_compensation.cpp ${TDS_HDRS})
     target_link_libraries(gravity_compensation pybullet_visualizer_api)
 
-if (HAS_MESHCAT)
-    add_executable(laikago_meshcat_example laikago_meshcat_example.cpp ${TDS_HDRS})
-    target_link_libraries(laikago_meshcat_example pybullet_visualizer_api ${MESHCAT_LIBRARIES})
-endif (HAS_MESHCAT)
+    if (HAS_MESHCAT)
+        add_executable(laikago_meshcat_example laikago_meshcat_example.cpp ${TDS_HDRS})
+        target_link_libraries(laikago_meshcat_example pybullet_visualizer_api ${MESHCAT_LIBRARIES})
+    endif (HAS_MESHCAT)
 
-if (Torch_FOUND)
-    message("FOUND LIBTORCH")
-    include_directories(${TORCH_INCLUDE_DIRS})
-    message("Torch libraries: ${TORCH_LIBRARIES}")
-    add_executable(torch_example torch_example.cpp ${TDS_HDRS})
-    target_link_libraries(torch_example pybullet_visualizer_api ${TORCH_LIBRARIES})
-endif (Torch_FOUND)
+
+    if (Torch_FOUND)
+        message("FOUND LIBTORCH")
+        message("Torch libraries: ${TORCH_LIBRARIES}")
+        include_directories(${TORCH_INCLUDE_DIRS})
+
+        add_executable(torch_example torch_example.cpp ${TDS_HDRS})
+        target_link_libraries(torch_example pybullet_visualizer_api ${TORCH_LIBRARIES})
+
+    endif (Torch_FOUND)
 
 endif (Bullet_FOUND)
 

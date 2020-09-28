@@ -35,8 +35,8 @@ struct TinyQuaternion {
 
   TinyQuaternion(TinyScalar x, TinyScalar y, TinyScalar z, TinyScalar w)
       : m_x(x), m_y(y), m_z(z), m_w(w) {
-    if (x == TinyConstants::zero() && y == TinyConstants::zero() &&
-        z == TinyConstants::zero() && w == TinyConstants::zero()) {
+    if (TinyConstants::getDouble(x) == 0.0 && TinyConstants::getDouble(y) == 0.0 &&
+        TinyConstants::getDouble(z) == 0.0 && TinyConstants::getDouble(w) == 0.0) {
       fprintf(stderr,
               "Error: cannot construct a quaternion with x = y = z = w = 0.");
       assert(0);
@@ -109,7 +109,7 @@ struct TinyQuaternion {
   }
 
   TinyQuaternion& operator/=(const TinyScalar& s) {
-    assert(s != TinyConstants::zero());
+    assert(TinyConstants::getDouble(s) != 0.0);
     return *this *= (TinyConstants::one() / s);
   }
 

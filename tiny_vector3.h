@@ -223,7 +223,7 @@ struct TinyVector3 {
    */
   inline void plane_space(TinyVector3& p, TinyVector3& q) const {
     const TinyVector3& n = *this;
-    if (n.m_z * n.m_z > TinyConstants::half()) {
+    if (TinyConstants::getDouble(n.m_z * n.m_z) > TinyConstants::getDouble(TinyConstants::half())) {
       // choose p in y-z plane
       TinyScalar a = n.m_y * n.m_y + n.m_z * n.m_z;
       TinyScalar k = TinyConstants::sqrt1(a);

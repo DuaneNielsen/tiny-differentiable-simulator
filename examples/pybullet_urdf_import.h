@@ -150,11 +150,15 @@ struct PyBulletUrdfImport {
       TinyQuaternion<TinyScalar, TinyConstants> rot;
       TinySpatialTransform<TinyScalar, TinyConstants> geom_X_world =
           body->m_base_X_world * body->m_X_visuals[v];
-      btVector3 base_pos(geom_X_world.m_translation.getX(),
-                         geom_X_world.m_translation.getY(),
-                         geom_X_world.m_translation.getZ());
+      btVector3 base_pos(TinyConstants::getDouble(geom_X_world.m_translation.getX()),
+                         TinyConstants::getDouble(geom_X_world.m_translation.getY()),
+                         TinyConstants::getDouble(geom_X_world.m_translation.getZ()));
       geom_X_world.m_rotation.getRotation(rot);
-      btQuaternion base_orn(rot.getX(), rot.getY(), rot.getZ(), rot.getW());
+      btQuaternion base_orn(
+              TinyConstants::getDouble(rot.getX()),
+              TinyConstants::getDouble(rot.getY()),
+              TinyConstants::getDouble(rot.getZ()),
+              TinyConstants::getDouble(rot.getW()));
       viz_api.resetBasePositionAndOrientation(visual_id, base_pos, base_orn);
     }
 
@@ -164,11 +168,14 @@ struct PyBulletUrdfImport {
         TinyQuaternion<TinyScalar, TinyConstants> rot;
         TinySpatialTransform<TinyScalar, TinyConstants> geom_X_world =
             body->m_links[l].m_X_world * body->m_links[l].m_X_visuals[v];
-        btVector3 base_pos(geom_X_world.m_translation.getX(),
-                           geom_X_world.m_translation.getY(),
-                           geom_X_world.m_translation.getZ());
+        btVector3 base_pos(TinyConstants::getDouble(geom_X_world.m_translation.getX()),
+                           TinyConstants::getDouble(geom_X_world.m_translation.getY()),
+                           TinyConstants::getDouble(geom_X_world.m_translation.getZ()));
         geom_X_world.m_rotation.getRotation(rot);
-        btQuaternion base_orn(rot.getX(), rot.getY(), rot.getZ(), rot.getW());
+        btQuaternion base_orn(TinyConstants::getDouble(rot.getX()),
+                              TinyConstants::getDouble(rot.getY()),
+                              TinyConstants::getDouble(rot.getZ()),
+                              TinyConstants::getDouble(rot.getW()));
         viz_api.resetBasePositionAndOrientation(visual_id, base_pos, base_orn);
       }
     }

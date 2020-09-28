@@ -67,10 +67,13 @@ ENDIF(WIN32)
 ADD_DEFINITIONS(-DSTATIC_LINK_SPD_PLUGIN)
 
 
-
+message("enter third party")
 SUBDIRS(third_party/cpp_base64)
+message("exit third party")
 
+message("enter examples")
 SUBDIRS(examples)
+message("exit examples")
 
 OPTION(BUILD_PYTHON_PLUGIN "Set when you want to build pydiffphys (Python bindings for tiny-differentiable-simulator)" ON)
 IF(BUILD_PYTHON_PLUGIN)

@@ -106,8 +106,7 @@ struct TinyUrdfToMultiBody {
           int non_zero_joint_axis_index = -1;
           for (int j = 0; j < 3; j++) {
             // approximate check needed?
-            if (urdf_structures.m_joints[i].joint_axis_xyz[j] ==
-                TinyConstants::one()) {
+            if (TinyConstants::getDouble(urdf_structures.m_joints[i].joint_axis_xyz[j]) == 1.0) {
               if (non_zero_joint_axis_index >= 0) {
                 break;
               }
@@ -128,8 +127,7 @@ struct TinyUrdfToMultiBody {
           int non_zero_joint_axis_index = -1;
           for (int j = 0; j < 3; j++) {
             // approximate check needed?
-            if (urdf_structures.m_joints[i].joint_axis_xyz[j] ==
-                TinyConstants::one()) {
+            if (TinyConstants::getDouble(urdf_structures.m_joints[i].joint_axis_xyz[j]) == 1.0) {
               if (non_zero_joint_axis_index >= 0) {
                 break;
               }

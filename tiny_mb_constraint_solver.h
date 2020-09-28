@@ -87,15 +87,15 @@ struct TinyMultiBodyConstraintSolver {
         TinyScalar s = TinyConstants::one();
         if (!m_limit_dependency.empty() && m_limit_dependency[i] >= 0) {
           s = x[m_limit_dependency[i]];
-          if (s < TinyConstants::zero()) {
+          if (TinyConstants::getDouble(s) < 0.0) {
             s = TinyConstants::one();
           }
         }
 
-        if (lo && x[i] < (*lo)[i] * s) {
+        if (lo && TinyConstants::getDouble(x[i]) < TinyConstants::getDouble((*lo)[i] * s)) {
           x[i] = (*lo)[i] * s;
         }
-        if (hi && x[i] > (*hi)[i] * s) {
+        if (hi && TinyConstants::getDouble(x[i]) > TinyConstants::getDouble((*hi)[i] * s)) {
           x[i] = (*hi)[i] * s;
         }
         TinyScalar diff = x[i] - x_old;
@@ -189,7 +189,7 @@ struct TinyMultiBodyConstraintSolver {
     for (int i = 0; i < n_c; ++i) {
       const TinyContactPoint& cp = cps[i];
       // all contact points are already assumed to have distance < 0
-      if (cp.m_distance > TinyConstants::zero()) continue;
+      if (TinyConstants::getDouble(cp.m_distance) > 0.0) continue;
 
       const TinyVector3& world_point_a = cp.m_world_point_on_a;
       TinyMatrix3xX jac_a =
@@ -250,7 +250,7 @@ struct TinyMultiBodyConstraintSolver {
       TinyVector3 fr_direction1, fr_direction2;
       //      cp.m_world_normal_on_b.print("contact normal");
       //      fflush(stdout);
-      if (lateral < TinyConstants::fraction(1, 10000)) {
+      if (TinyConstants::getDouble(lateral) < TinyConstants::getDouble(TinyConstants::fraction(1, 10000))) {
         // use the plane space of the contact normal as friction directions
         cp.m_world_normal_on_b.plane_space(fr_direction1, fr_direction2);
       } else {

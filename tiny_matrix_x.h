@@ -246,7 +246,7 @@ class TinyMatrixXxX_ {
           sum -= a[i][k] * a[j][k];
         }
         if (i == j) {
-          if (sum <= TinyConstants::zero()) {
+          if (TinyConstants::getDouble(sum) <= 0.0) {
             is_positive_definite = false;
             break;
           }

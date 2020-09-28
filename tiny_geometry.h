@@ -142,7 +142,7 @@ int contactSphereSphere(
   TinyVector3 normal_on_b;
   normal_on_b.setValue(TinyConstants::one(), TinyConstants::zero(),
                        TinyConstants::zero());
-  if (length > CONTACT_EPSILON) {
+  if (TinyConstants::getDouble(length) > TinyConstants::getDouble(CONTACT_EPSILON)) {
     TinyVector3 normal_on_b = TinyConstants::one() / length * diff;
     TinyVector3 point_a_world =
         poseA.m_position - sphereA->get_radius() * normal_on_b;

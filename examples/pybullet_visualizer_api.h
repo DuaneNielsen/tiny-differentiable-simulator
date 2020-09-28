@@ -30,8 +30,7 @@ class PyBulletVisualizerAPI : public b3RobotSimulatorClientAPI_NoGUI {
 
   virtual ~PyBulletVisualizerAPI();
 
-  bool connect(int mode, const std::string &hostName = "localhost",
-               int portOrKey = -1);
+  bool connect(int mode, const std::string &hostName = "localhost", int portOrKey = -1);
 };
 
 #endif  // PYBULLET_VISUALIZER_API_H

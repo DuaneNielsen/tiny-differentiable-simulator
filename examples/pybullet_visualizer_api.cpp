@@ -32,6 +32,7 @@ PyBulletVisualizerAPI::PyBulletVisualizerAPI() {}
 
 PyBulletVisualizerAPI::~PyBulletVisualizerAPI() {}
 
+
 bool PyBulletVisualizerAPI::connect(int mode, const std::string &hostName,
                                     int portOrKey) {
   if (m_data->m_physicsClientHandle) {

@@ -55,13 +55,13 @@ struct TinyConstraintSolver {
         world_point_b - cp.m_rigid_body_b->m_world_pose.m_position;
     TinyScalar baumgarte_rel_vel = TinyConstants::zero();
 
-    if (cp.m_distance < TinyConstants::zero()) {
+    if (TinyConstants::getDouble(cp.m_distance) < 0.0) {
       baumgarte_rel_vel = erp * cp.m_distance / dt;
       TinyVector3 vel_a = cp.m_rigid_body_a->get_velocity(rel_pos_a);
       TinyVector3 vel_b = cp.m_rigid_body_b->get_velocity(rel_pos_b);
       TinyVector3 rel_vel = vel_a - vel_b;
       TinyScalar normal_rel_vel = cp.m_world_normal_on_b.dot(rel_vel);
-      if (normal_rel_vel < TinyConstants::zero()) {
+      if (TinyConstants::getDouble(normal_rel_vel) < 0.0) {
         TinyVector3 temp1 = cp.m_rigid_body_a->m_inv_inertia_world.dot(
             TinyVector3::cross2(rel_pos_a, cp.m_world_normal_on_b));
         TinyVector3 temp2 = cp.m_rigid_body_b->m_inv_inertia_world.dot(
@@ -74,7 +74,7 @@ struct TinyConstraintSolver {
              baumgarte_rel_vel) /
             (cp.m_rigid_body_a->m_inv_mass + cp.m_rigid_body_b->m_inv_mass +
              ang);
-        if (impulse > TinyConstants::zero()) {
+        if (TinyConstants::getDouble(impulse) > 0.0) {
           TinyVector3 impulse_vector = impulse * cp.m_world_normal_on_b;
           cp.m_rigid_body_a->apply_impulse(impulse_vector, rel_pos_a);
           cp.m_rigid_body_b->apply_impulse(-impulse_vector, rel_pos_b);
@@ -88,13 +88,13 @@ struct TinyConstraintSolver {
 
           TinyScalar friction_coeffcient = cp.m_friction;
           TinyScalar friction_impulse;
-          if (friction_impulse_trial < friction_coeffcient * impulse) {
+          if (TinyConstants::getDouble(friction_impulse_trial) < TinyConstants::getDouble(friction_coeffcient * impulse)) {
             friction_impulse = friction_impulse_trial;
           } else {
             friction_impulse = friction_coeffcient * impulse;
           }
 
-          if ((lateral_rel_vel.length()) > TinyConstants::fraction(1, 10000)) {
+          if (TinyConstants::getDouble((lateral_rel_vel.length())) > TinyConstants::getDouble(TinyConstants::fraction(1, 10000))) {
             TinyVector3 friction_dir =
                 lateral_rel_vel *
                 (TinyConstants::one() / lateral_rel_vel.length());
